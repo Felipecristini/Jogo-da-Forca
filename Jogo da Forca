@@ -1,0 +1,61 @@
+import random
+from time import sleep
+
+
+def again():
+    while True:
+        resp = input('Quer jogar novamente? [S] ou [N]: ').strip().lower()
+        if resp == 's':
+            return True
+        if resp == 'n':
+            print('Obrigado por jogar! Até a próxima.')
+            sleep(0.5)
+            print('Encerrando....')
+            sleep(1.5)
+            return False
+        else:
+            print('\033[031mERRO! Digite apenas [S] ou [N].\033[m')
+
+
+def forca():
+    palavras = ["elefante", "garrafa", "futebol", "computador",
+                "academia", "crocodilo", "cadeira", "janela",
+                "brasil", "faculdade", "skate", "controle",
+                "chinelo", "camiseta", "time", "palmeiras"]
+    while True:
+        palavra = random.choice(palavras).upper()
+        letras = ["_"] * len(palavra)
+        vidas = 6
+        erradas = []
+
+        print('-' * 30)
+        print("Jogo da Forca".center(30))
+        print('-' * 30)
+
+        while vidas > 0 and "_" in letras:
+            print("\n" + " ".join(letras))
+            print(f"Letras erradas: {', '.join(erradas)}")
+            print(f"Vidas restantes: {vidas}")
+
+            tentativa = input("Digite uma letra: ").upper()
+
+            if tentativa in palavra:
+                print("Você acertou!")
+                for i, letra in enumerate(palavra):
+                    if letra == tentativa:
+                        letras[i] = tentativa
+            else:
+                print("Você errou!")
+                if tentativa not in erradas:
+                    erradas.append(tentativa)
+                    vidas -= 1
+
+        if "_" not in letras:
+            print("\nParabéns! Você acertou a palavra:", palavra)
+        else:
+            print("\nGame Over! A palavra era:", palavra)
+
+        if not again():
+            break
+
+forca()
